@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        div{
+            /*border: 5px solid black;*/
+            position: relative;
+            width: 600px;
+            margin:10px auto;
+        }
+        div ul li img{
+            display: none;
+        }
+        li{
+            list-style: none;
+        }
+        ol{position: absolute;
+        top:350px;
+        left:320px;
+        }
+        ol li{
+            float: left;
+            border: 2px solid black;
+            padding: 10px 15px 10px 15px;
+            margin: 5px;
+        }
+        ol li:hover{
+            cursor: pointer;
+        }
+        .col{
+            background: pink;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var oUl=document.getElementById("ul1");
+            var oLi1=oUl.getElementsByTagName("li")[0];
+            var oImg=oLi1.getElementsByTagName("img");
+
+            var oOl=document.getElementById("ol1");
+            var oLi2=oOl.getElementsByTagName("li");
+
+            for(var i=0;i<oLi2.length;i++){
+                oLi2[i].index=i;
+                oLi2[i].onclick=function(){
+                    for(var i=0;i<oLi2.length;i++){
+                        oLi2[i].className="";
+                        oImg[i].style.display="none";
+                    }
+                    this.className="col";
+                    oImg[this.index].style.display="block";
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="box">
+    <ul id="ul1">
+        <li>
+            <img src="image/1.jpg" style="display: block">
+            <img src="image/2.jpg">
+            <img src="image/3.jpg">
+            <img src="image/4.jpg">
+            <img src="image/5.jpg">
+        </li>
+    </ul>
+    <ol id="ol1">
+        <li class="col">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ol>
+</div>
+
+
+</body>
+</html>
