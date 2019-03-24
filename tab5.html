@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        .cla{
+            background: pink;
+        }
+        *{
+            padding:0;
+            margin:0;
+        }
+        #box{
+            width:600px;
+            height:420px;
+            position:relative;
+            margin:auto;
+            overflow: hidden;
+        }
+        #box #imgBorder{
+            position:absolute;
+            top:0px;
+            left:0px;
+        }
+        #box #imgBorder div{
+            width:600px;
+            height:420px;
+        }
+        #box #imgBorder div:nth-of-type(1){background:url("image/1.jpg") }
+        #box #imgBorder div:nth-of-type(2){background:url("image/2.jpg") }
+        #box #imgBorder div:nth-of-type(3){background:url("image/3.jpg") }
+        #box #imgBorder div:nth-of-type(4){background:url("image/4.jpg") }
+        #box #imgBorder div:nth-of-type(5){background:url("image/5.jpg") }
+        #box ul{
+            position: absolute;
+            right:5px;
+            bottom:5px;
+        }
+        #box ul li{
+            list-style: none;
+            float: left;
+            border:1px solid black;
+            margin: 5px;
+            padding: 10px 15px 10px 15px;
+        }
+    </style>
+    <script src="jquery-1.8.3.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var num=0;/*用来控制图片父容器的滚动*/
+            var num1=0; /*用来控制控制图片的片的小图标*/
+            var timer=null;
+            /*定时轮播*/
+
+            $("#box ul li").each(function(index){
+                $(this).attr("index",index);
+                $("#box ul li").eq(index).on("mouseover",function(){
+
+                    num=$(this).attr("index");
+                    num1=$(this).attr("index");
+                    if(num1==0){
+                        $("#box #imgBorder div").eq(0).css({
+                            position:"static"
+                        })
+                    }
+                    clearInterval($("#imgBorder").attr("timer"));
+                    $("#imgBorder").attr("timer",setInterval(function(){
+                        var speed=((-420*num)-$("#imgBorder").offset().top)/5;
+                        speed=speed>0?Math.ceil(speed):Math.floor(speed);
+                        if((-420*num)==$("#imgBorder").offset().top){
+                            clearInterval($("#imgBorder").attr("timer"));
+                        }else{
+                            $("#imgBorder").css({
+                                top:$("#imgBorder").offset().top+speed+"px"
+                            })
+                        }
+                    },50))
+                    clearInterval(timer);
+                    $("#box ul li").each(function(index){
+                        $("#box ul li").eq(index).removeClass("cla");
+                    })
+                    $(this).addClass("cla");
+
+                    $(this).on("mouseout",function(){
+                        clearInterval(timer); /*这句话是唯一和js不同的地方！！！js不写这句话就可以完成案例，而jquery不写这句话会有bug，原因不明*/
+                        timer=setInterval(function(){
+                            if(num>=5){
+                                num=0;
+                                $("#imgBorder div").eq(0).css({
+                                    position:"static",
+                                })
+                                $("#imgBorder").css({ /*注意点1：是将$("#imgBorder")top值变0，而不是$("#imgBorder div").eq(0)*/
+                                    top:0+"px"
+                                })
+                            }
+                            if(num>=1){
+                                $("#imgBorder div").eq(0).css({
+                                    position:"relative",
+                                    top:420*5+"px"
+                                })
+                            }
+                            num++;
+                            num1++;
+                            if(num1>=5){
+                                num1=0;
+                            }
+                            $("#box ul li").each(function(index){
+                                $("#box ul li").eq(index).removeClass("cla")
+                            })
+                            $("#box ul li").eq(num1).addClass("cla");
+                            startMove(-420*num,$("#imgBorder"),5);
+                        },2000);
+                    })
+                })
+            })
+            timer=setInterval(function(){
+                if(num>=5){
+                    num=0;
+                    $("#imgBorder div").eq(0).css({
+                        position:"static",
+                    })
+                    $("#imgBorder").css({ /*注意点1：是将$("#imgBorder")top值变0，而不是$("#imgBorder div").eq(0)*/
+                        top:0+"px"
+                    })
+                }
+                if(num>=1){
+                    $("#imgBorder div").eq(0).css({
+                        position:"relative",
+                        top:420*5+"px"
+                    })
+                }
+                num++;
+                num1++;
+                if(num1>=5){
+                    num1=0;
+                }
+                $("#box ul li").each(function(index){
+                    $("#box ul li").eq(index).removeClass("cla")
+                })
+                $("#box ul li").eq(num1).addClass("cla");
+                startMove(-420*num,$("#imgBorder"),5);
+            },2000);
+        })
+
+
+
+
+
+
+
+
+
+        function startMove(target,obj,n){
+            obj.attr("timer",setInterval(function(){
+                var speed=(target-obj.offset().top)/n;
+                speed=speed>0?Math.ceil(speed):Math.floor(speed);
+                if(target==obj.offset().top){
+                    clearInterval(obj.attr("timer"));
+                }else{
+                    obj.css({
+                        top:obj.offset().top+speed+"px"
+                    })
+                }
+            },50))
+        }
+    </script>
+</head>
+<body>
+<div id="box">
+    <div id="imgBorder">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <ul>
+        <li class="cla">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+</div>
+</body>
+</html>
