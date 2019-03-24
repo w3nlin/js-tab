@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin: 0; padding:0;}
+        #box{
+            position: relative;
+            width:600px;
+            height:420px;
+            margin: auto;
+            border: 5px solid black;
+            overflow: hidden;
+        }
+        #box div,#box div img{
+
+        }
+        #box div{
+            border:1px solid red;
+            position:absolute;
+            top:0px;
+            left:0px;
+            transition: 0.5s;
+        }
+        #box div img{
+             margin: -2px;
+             position:absolute;
+         }
+        #box div img:nth-of-type(2){
+            left:600px;
+        }
+        #box div img:nth-of-type(3){
+            left:1200px;
+        }
+        #box div img:nth-of-type(4){
+            left:1800px;
+        }
+        #box div img:nth-of-type(5){
+            left:2400px;
+        }
+
+        #box ol{
+            position:absolute;
+            bottom:25px;
+            right:25px;
+            z-index: 10;
+        }
+        #box ol li{
+
+            float:left;
+            list-style: none;
+            border: 1px solid black;
+            margin: 5px;
+            padding: 10px 15px 10px 15px;
+        }
+        .cla{
+            background: pink;
+        }
+    </style>
+    <script src="jquery-1.8.3.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var num=0;
+
+            function fn(){
+                if(num==4){
+                    num=-1;
+                }
+                    num++;
+                    $("#box ol li").eq(num).parent().children().removeClass("cla");
+                    $("#box ol li").eq(num).addClass("cla");
+                        $("#box div").css({
+                            left:-600*num+"px"
+                        })
+
+                        console.log(num);
+            }
+            var timer=null;
+            timer=setInterval(fn,2000);
+            $("#box").on("mouseover",function(){
+                clearInterval(timer);
+            })
+            $("#box").on("mouseout",function(){
+                timer=setInterval(fn,2000);
+            })
+
+            $("#box ol li").each(function(index){
+                $("#box ol li").eq(index).on("mouseover",function(){
+                    clearInterval(timer);
+                    $(this).parent().children().removeClass("cla");
+                    $(this).addClass("cla");
+
+                    $("#box div").css({
+                        left:-600*index+"px"
+                    })
+                    console.log($("#box div").offset().top);
+                })
+                $("#box ol li").eq(index).on("mouseout",function(){
+                    num=index;
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="box">
+    <div>
+        <img src="image/1.jpg">
+        <img src="image/2.jpg">
+        <img src="image/3.jpg">
+        <img src="image/4.jpg">
+        <img src="image/5.jpg">
+    </div>
+    <ol>
+        <li class="cla">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ol>
+</div>
+</body>
+</html>
