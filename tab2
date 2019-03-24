@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin: 0; padding:0;}
+        #box{
+            position: relative;
+            width:600px;
+            height:420px;
+            margin: auto;
+            border: 5px solid black;
+        }
+        #box div,#box div img{
+            position:absolute;
+            top:0px;
+            left:0px;
+        }
+        #box div img:nth-of-type(1){
+            z-index: 5;
+        }
+        #box div img:nth-of-type(2){
+            z-index: 4;
+        }
+        #box div img:nth-of-type(3){
+            z-index: 3;
+        }
+        #box div img:nth-of-type(4){
+            z-index: 2;
+        }
+        #box div img:nth-of-type(5){
+            z-index: 1;
+        }
+        #box ol{
+            position:absolute;
+            bottom:25px;
+            right:25px;
+            z-index: 10;
+        }
+        #box ol li{
+
+            float:left;
+            list-style: none;
+            border: 1px solid black;
+            margin: 5px;
+            padding: 10px 15px 10px 15px;
+        }
+        .cla{
+            background: pink;
+        }
+    </style>
+    <script src="jquery-1.8.3.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#box ol li").each(function(index){
+                $("#box ol li").eq(index).on("mouseover",function(){
+                    $(this).parent().children().removeClass("cla");
+                    $(this).addClass("cla");
+                    $("#box div img").eq(index).parent().children().hide();
+                    $("#box div img").eq(index).fadeIn();
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="box">
+    <div>
+        <img src="image/1.jpg">
+        <img src="image/2.jpg">
+        <img src="image/3.jpg">
+        <img src="image/4.jpg">
+        <img src="image/5.jpg">
+    </div>
+    <ol>
+        <li class="cla">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ol>
+</div>
+</body>
+</html>
